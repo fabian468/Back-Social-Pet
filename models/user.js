@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     registrationDate: { type: Date, default: Date.now },
     lastConnectionDate: Date,
+    image: {
+      type: String,
+      default: ''
+    },
     accountStatus: {
       type: String,
       enum: ["active", "suspended", "deleted"],

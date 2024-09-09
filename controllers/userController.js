@@ -1,5 +1,8 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const SECRET_KEY = process.env.JWT_SECRET || "tu_clave_secreta_super_segura";
 
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
@@ -19,18 +22,24 @@ exports.loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Usuario no encontrado" });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Contraseña incorrecta" });
     }
 
-    res.status(200).json({ idUser: user.id });
+    // Generar el token JWT
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      SECRET_KEY
+    );
+
+    res.status(200).json({ idUser: user._id, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Crear un nuevo usuario
 exports.registerUser = async (req, res) => {
   try {
     const userExists = await User.findOne({ email: req.body.email });
@@ -39,13 +48,23 @@ exports.registerUser = async (req, res) => {
         .status(400)
         .json({ message: "El correo electrónico ya está registrado" });
     }
+    const { name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus } = req.body
+
+    console.log(name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus)
 
     const user = new User(req.body);
-    console.log(user);
     await user.save();
+
+    // Generar token JWT después de registrar el usuario
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      SECRET_KEY,
+      { expiresIn: "1h" }
+    );
+
     res
       .status(201)
-      .json({ user: user, message: "Usuario registrado exitosamente" });
+      .json({ user: user, token, message: "Usuario registrado exitosamente" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -59,7 +78,7 @@ exports.checkEmail = async (req, res) => {
         .status(400)
         .json({ message: "El correo electrónico ya está registrado" });
     }
-    res.status(201).json({ message: "puede registrar el correo" });
+    res.status(201).json({ message: "Puede registrar el correo" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
