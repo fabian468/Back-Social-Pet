@@ -11,6 +11,16 @@ const storage = multer.diskStorage({
     }
 });
 
+const storageAvatar = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/avatar');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+
 // Función para filtrar archivos según el tipo
 const fileFilter = (req, file, cb) => {
     const filetypes = /jpeg|jpg|png/;
@@ -32,5 +42,11 @@ const upload = multer({
     limits: { fileSize: 1024 * 1024 * 5 } // Limitar a 5MB
 });
 
-module.exports = upload;
+const uploadAvatar = multer({
+    storage: storageAvatar,
+    fileFilter: fileFilter,
+    limits: { fileSize: 1024 * 1024 * 5 } // Limitar a 5MB
+});
+
+module.exports = { upload, uploadAvatar };
 

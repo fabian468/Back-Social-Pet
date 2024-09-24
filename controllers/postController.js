@@ -24,7 +24,7 @@ exports.createPost = async (req, res) => {
 
         let imagePath = '';
         if (req.file) {
-            imagePath = path.join('/uploads', req.file.filename); // Ruta relativa de la imagen
+            imagePath = path.join('/uploads', req.file.filename);
         } else {
             console.log("no se encontro req.file")
         }

@@ -52,14 +52,13 @@ exports.registerUser = async (req, res) => {
     }
     const { name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus } = req.body
 
-    //console.log(name, email, country, password, registrationDate, lastConnectionDate, "imagen: ", image, accountStatus)
+    //console.log(name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus)
 
     let imagePath = '';
     if (req.file) {
       imagePath = path.join('/uploads/avatar', req.file.filename);
     } else {
       console.log("no se encontro req.file")
-
     }
 
     const user = new User({
@@ -74,7 +73,7 @@ exports.registerUser = async (req, res) => {
     });
     await user.save();
 
-    // Generar token JWT después de registrar el usuario
+
     const token = jwt.sign(
       { id: user._id, email: user.email },
       SECRET_KEY,
