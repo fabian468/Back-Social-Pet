@@ -1,3 +1,4 @@
+const deleteImage = require('../config/deleteImg');
 const Post = require('../models/post');
 const path = require('path');
 
@@ -23,7 +24,6 @@ exports.createPost = async (req, res) => {
 
         let imagePath = '';
         if (req.file) {
-            console.log(path)
             imagePath = path.join('/uploads', req.file.filename); // Ruta relativa de la imagen
         } else {
             console.log("no se encontro req.file")
@@ -65,10 +65,49 @@ exports.getPostById = async (req, res) => {
 };
 
 
+exports.getPostsByAuthor = async (req, res) => {
+    try {
+        const { authorId } = req.body;
+
+        const posts = await Post.find({ author: authorId })
+
+        if (!posts) {
+            return res.status(404).json({ message: 'No se encontraron publicaciones para este autor' });
+        }
+
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener las publicaciones' });
+    }
+};
+
+
+exports.deletePostById = async (req, res) => {
+    try {
+        const postId = req.params.idpost;
+        const post = await Post.findById(postId);
+        const idImg = post.image
+        console.log(idImg)
+        const result = await Post.findByIdAndDelete(postId);
+
+        if (!result) {
+            return res.status(404).json({ error: "Post no encontrado" });
+        }
+
+        if (idImg) {
+            deleteImage(idImg);
+        }
+
+        res.status(200).json({ message: "Post eliminado exitosamente" });
+    } catch (error) {
+        res.status(500).json({ error: "Error al eliminar el post" });
+    }
+};
+
 exports.addCommentToPost = async (req, res) => {
     try {
-        const postId = req.params.id;
-        const { userId, comment } = req.body;
+        const { userId, comment, postId } = req.body;
 
         // Buscar el post al cual agregar el comentario
         const post = await Post.findById(postId)
@@ -91,6 +130,7 @@ exports.addCommentToPost = async (req, res) => {
         res.status(500).json({ error: 'Error al agregar el comentario' });
     }
 };
+
 
 
 exports.deleteCommentFromPost = async (req, res) => {

@@ -4,7 +4,12 @@ const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: /.+\@.+\..+/
+    },
     country: String,
     password: { type: String, required: true },
     registrationDate: { type: Date, default: Date.now },
@@ -13,6 +18,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+
+    friendRequestsSent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+
+    friendRequestsReceived: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+
+    friendBlackList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+
     accountStatus: {
       type: String,
       enum: ["active", "suspended", "deleted"],
@@ -22,7 +36,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Middleware para hashear la contraseña antes de guardarla
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 

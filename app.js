@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/useRoutes");
 const postRoutes = require("./routes/postRoutes");
+const friendsRoutes = require("./routes/friendsRoutes");
 const cors = require("cors");
 const path = require('path');
 
@@ -23,6 +24,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rutas
 app.use("/api", userRoutes);
+app.use("/api", friendsRoutes);
 app.use("/post", postRoutes);
 
 const PORT = process.env.PORT || 4000;

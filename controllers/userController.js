@@ -1,13 +1,15 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const path = require('path');
 
 const SECRET_KEY = process.env.JWT_SECRET || "tu_clave_secreta_super_segura";
 
 // Obtener todos los usuarios
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const idUser = req.params.id
+    const users = await User.findById(idUser);
     res.json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -50,9 +52,26 @@ exports.registerUser = async (req, res) => {
     }
     const { name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus } = req.body
 
-    console.log(name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus)
+    //console.log(name, email, country, password, registrationDate, lastConnectionDate, "imagen: ", image, accountStatus)
 
-    const user = new User(req.body);
+    let imagePath = '';
+    if (req.file) {
+      imagePath = path.join('/uploads/avatar', req.file.filename);
+    } else {
+      console.log("no se encontro req.file")
+
+    }
+
+    const user = new User({
+      name: name,
+      email: email,
+      country: country,
+      password: password,
+      registrationDate: registrationDate,
+      lastConnectionDate: lastConnectionDate,
+      image: imagePath,
+      accountStatus: accountStatus
+    });
     await user.save();
 
     // Generar token JWT después de registrar el usuario

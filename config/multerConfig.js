@@ -24,6 +24,7 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
+
 // Configuración de Multer
 const upload = multer({
     storage: storage,
@@ -32,3 +33,4 @@ const upload = multer({
 });
 
 module.exports = upload;
+
