@@ -52,7 +52,7 @@ exports.registerUser = async (req, res) => {
     }
     const { name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus } = req.body
 
-    //console.log(name, email, country, password, registrationDate, lastConnectionDate, image, accountStatus)
+
 
     let imagePath = '';
     if (req.file) {

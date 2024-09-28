@@ -6,6 +6,7 @@ const postRoutes = require("./routes/postRoutes");
 const friendsRoutes = require("./routes/friendsRoutes");
 const cors = require("cors");
 const path = require('path');
+const helpRoutes = require('./routes/helpRoutes');
 
 
 
@@ -26,6 +27,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api", userRoutes);
 app.use("/api", friendsRoutes);
 app.use("/post", postRoutes);
+app.use('/api', helpRoutes);
 
 const PORT = process.env.PORT || 4000;
 
