@@ -1,22 +1,21 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const userRoutes = require("./routes/useRoutes");
-const postRoutes = require("./routes/postRoutes");
-const friendsRoutes = require("./routes/friendsRoutes");
 const cors = require("cors");
 const path = require('path');
-const helpRoutes = require('./routes/helpRoutes');
+
+const userRoutes = require("./app/routes/useRoutes");
+const postRoutes = require("./app/routes/postRoutes");
+const friendsRoutes = require("./app/routes/friendsRoutes");
+const helpRoutes = require('./app/routes/helpRoutes');
+
+const { dbConnect } = require('./config/mongo')
 
 
 
 require("dotenv").config();
 
 // Conexión a la base de datos
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Conectado a la base de datos"))
-  .catch((err) => console.log("no se pudo conectar ", err));
+dbConnect()
 
 // Configuraciones
 app.use(express.json());
@@ -28,6 +27,8 @@ app.use("/api", userRoutes);
 app.use("/api", friendsRoutes);
 app.use("/post", postRoutes);
 app.use('/api', helpRoutes);
+
+
 
 const PORT = process.env.PORT || 4000;
 

@@ -73,5 +73,4 @@ const uploadVideo = multer({
     limits: { fileSize: 1024 * 1024 * 15 } // Limitar a 15MB
 });
 
-module.exports = { upload, uploadAvatar, uploadVideo };
-
+module.exports = { upload, uploadAvatar, uploadVideo }
