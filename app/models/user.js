@@ -27,6 +27,8 @@ const userSchema = new mongoose.Schema(
 
     friendBlackList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
+    casesFollow: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Helps' }],
+
     accountStatus: {
       type: String,
       enum: ["active", "suspended", "deleted"],

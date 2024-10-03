@@ -13,11 +13,9 @@ const HelpSchema = new Schema(
         },
         nombredelAnimal: {
             type: String,
-            required: true
         },
         ubicacionAnimal: {
             type: String,
-            required: true
         },
         Comment: {
             type: String
@@ -45,8 +43,23 @@ const HelpSchema = new Schema(
                 type: Date,
                 default: Date.now
             }
+        }],
+        Historial: [{
+            titulo: {
+                type: String,
+                trim: true
+            },
+            image: {
+                type: String,
+                default: ''
+            },
+            comment: {
+                type: String,
+                trim: true
+            },
         }]
     },
+
     { timestamps: true }
 );
 
