@@ -21,25 +21,25 @@ exports.createPost = async (req, res) => {
     try {
         const { content, author } = req.body;
 
-
         let imagePath = '';
         if (req.file) {
             imagePath = path.join('/uploads', req.file.filename);
         } else {
-            console.log("no se encontro req.file")
+            console.log("no se encontro req.file");
         }
 
-
-        const newPost = new Post({
+        // Crear el nuevo post
+        let newPost = new Post({
             content: content,
             image: imagePath,
             author: author
         });
 
 
+        newPost = await newPost.save();
+        await newPost.populate('author', ['name', 'email']);
 
-        const savedPost = await newPost.save();
-        res.status(201).json(savedPost);
+        res.status(201).json(newPost);
     } catch (error) {
         res.status(500).json({ error: 'Error al crear el post' });
     }
@@ -88,7 +88,7 @@ exports.deletePostById = async (req, res) => {
         const postId = req.params.idpost;
         const post = await Post.findById(postId);
         const idImg = post.image
-        console.log(idImg)
+
         const result = await Post.findByIdAndDelete(postId);
 
         if (!result) {

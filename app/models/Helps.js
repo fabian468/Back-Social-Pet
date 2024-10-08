@@ -29,15 +29,18 @@ const HelpSchema = new Schema(
             type: Number,
             default: 0
         },
+        tipoAyudaNecesitada: {
+            type: String,
+            required: true
+        },
         ayudasRecibidas: [{
-            //puede ser anonimo
+
             user: {
                 type: Schema.Types.ObjectId,
                 ref: 'User',
             },
             ayuda: {
                 type: String,
-                required: true
             },
             fecha: {
                 type: Date,
@@ -59,7 +62,6 @@ const HelpSchema = new Schema(
             },
         }]
     },
-
     { timestamps: true }
 );
 

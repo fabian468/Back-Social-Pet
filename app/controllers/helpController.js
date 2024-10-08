@@ -2,7 +2,7 @@ const Help = require('../models/Helps');
 
 exports.createHelp = async (req, res) => {
     try {
-        const { Titulo, Comment, author, cantidadAyuda } = req.body;
+        const { Titulo, Comment, author, cantidadAyuda, nombredelAnimal, ubicacionAnimal, tipoAyudaNecesitada } = req.body;
         const videoPath = req.file ? req.file.path : '';
 
         const newHelp = new Help({
@@ -10,13 +10,20 @@ exports.createHelp = async (req, res) => {
             video: videoPath,
             Comment,
             author,
-            cantidadAyuda
+            cantidadAyuda,
+            nombredelAnimal,
+            ubicacionAnimal,
+            tipoAyudaNecesitada,
+            ayudasRecibidas: [],
+            Historial: []
         });
 
         await newHelp.save();
 
         return res.status(201).json({ message: 'Help creado con éxito', newHelp });
     } catch (error) {
+
+
         return res.status(500).json({ message: 'Error al crear Help', error });
     }
 };

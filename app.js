@@ -26,7 +26,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api", userRoutes);
 app.use("/api", friendsRoutes);
 app.use("/post", postRoutes);
-app.use('/api', helpRoutes);
+app.use('/post', helpRoutes);
 
 
 
