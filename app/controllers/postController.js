@@ -7,8 +7,8 @@ const path = require('path');
 exports.getAllPosts = async (req, res) => {
     try {
         const posts = await Post.find()
-            .populate('author', 'name')
-            .populate('comments.user', 'name')
+            .populate('author', 'name image')
+            .populate('comments.user', 'name image')
             .exec();
 
         res.json(posts);
