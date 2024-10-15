@@ -70,6 +70,9 @@ exports.getPostsByAuthor = async (req, res) => {
         const { authorId } = req.body;
 
         const posts = await Post.find({ author: authorId })
+            .populate('author', 'name image')
+            .populate('comments.user', 'name image')
+            .exec();
 
         if (!posts) {
             return res.status(404).json({ message: 'No se encontraron publicaciones para este autor' });
