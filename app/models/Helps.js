@@ -17,9 +17,22 @@ const HelpSchema = new Schema(
         ubicacionAnimal: {
             type: String,
         },
-        Comment: {
-            type: String
-        },
+        comments: [{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                required: true
+            },
+            comment: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }],
         author: {
             type: Schema.Types.ObjectId,
             ref: 'User',

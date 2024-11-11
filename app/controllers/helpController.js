@@ -2,13 +2,12 @@ const Help = require('../models/Helps');
 
 exports.createHelp = async (req, res) => {
     try {
-        const { Titulo, Comment, author, cantidadAyuda, nombredelAnimal, ubicacionAnimal, tipoAyudaNecesitada } = req.body;
+        const { Titulo, author, cantidadAyuda, nombredelAnimal, ubicacionAnimal, tipoAyudaNecesitada } = req.body;
         const videoPath = req.file ? req.file.path : '';
 
         const newHelp = new Help({
             Titulo,
             video: videoPath,
-            Comment,
             author,
             cantidadAyuda,
             nombredelAnimal,

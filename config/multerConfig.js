@@ -31,19 +31,20 @@ const storageVideoHelp = multer.diskStorage({
 
 
 const fileFilter = (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png/;
+    const filetypes = /jpeg|jpg|png|mp4|wma/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
     if (mimetype && extname) {
         return cb(null, true);
     } else {
-        cb(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png)'));
+        cb(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png) y video (mp4, wma)'));
     }
 };
 
+
 const fileFilterVideo = (req, file, cb) => {
-    const filetypes = /mp4/;
+    const filetypes = /mp4|wma/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
@@ -58,7 +59,7 @@ const fileFilterVideo = (req, file, cb) => {
 const upload = multer({
     storage: storage,
     fileFilter: fileFilter,
-    limits: { fileSize: 1024 * 1024 * 5 }
+    limits: { fileSize: 1024 * 1024 * 15 }
 });
 
 const uploadAvatar = multer({
