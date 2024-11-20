@@ -17,4 +17,5 @@ router.delete('/helps/:id', helpController.deleteHelp);
 router.post('/helps/comments', helpController.addCommentToHelps);
 
 router.delete('/helps/:postId/comments/:commentId', helpController.deleteCommentFromHelps);
+
 module.exports = router;
