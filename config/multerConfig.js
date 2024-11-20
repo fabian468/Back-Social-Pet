@@ -70,7 +70,7 @@ const uploadAvatar = multer({
 
 const uploadVideo = multer({
     storage: storageVideoHelp,
-    fileFilter: fileFilterVideo,
+    fileFilter: fileFilter,
     limits: { fileSize: 1024 * 1024 * 15 } // Limitar a 15MB
 });
 

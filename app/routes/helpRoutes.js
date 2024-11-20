@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const helpController = require('../controllers/helpController');
-const { uploadVideo } = require('../../config/multerConfig');
+const { upload } = require('../../config/multerConfig');
 
 
-router.post('/helps', uploadVideo.single('video'), helpController.createHelp);
+router.post('/helps', upload.single('video'), helpController.createHelp);
 
 router.get('/helps', helpController.getAllHelps);
 
@@ -14,4 +14,7 @@ router.put('/helps/:id', helpController.updateHelp);
 
 router.delete('/helps/:id', helpController.deleteHelp);
 
+router.post('/helps/comments', helpController.addCommentToHelps);
+
+router.delete('/helps/:postId/comments/:commentId', helpController.deleteCommentFromHelps);
 module.exports = router;

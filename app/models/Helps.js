@@ -7,7 +7,7 @@ const HelpSchema = new Schema(
             type: String,
             default: ''
         },
-        video: {
+        image: {
             type: String,
             default: ''
         },

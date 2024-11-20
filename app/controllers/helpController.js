@@ -7,7 +7,7 @@ exports.createHelp = async (req, res) => {
 
         const newHelp = new Help({
             Titulo,
-            video: videoPath,
+            image: videoPath,
             author,
             cantidadAyuda,
             nombredelAnimal,
@@ -31,7 +31,9 @@ exports.createHelp = async (req, res) => {
 
 exports.getAllHelps = async (req, res) => {
     try {
-        const helps = await Help.find().populate('author', 'name email');
+        const helps = await Help.find()
+            .populate('author', 'name image email')
+            .populate('comments.user', 'name image')
         return res.status(200).json(helps);
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener Helps', error });
@@ -86,5 +88,64 @@ exports.deleteHelp = async (req, res) => {
         return res.status(200).json({ message: 'Help eliminado con éxito' });
     } catch (error) {
         return res.status(500).json({ message: 'Error al eliminar Help', error });
+    }
+};
+
+
+exports.addCommentToHelps = async (req, res) => {
+    try {
+        const { userId, comment, helpId } = req.body;
+
+        console.log(userId, comment, helpId)
+
+
+        const post = await Help.findById(helpId)
+            .populate('comments.user', 'name')
+            .exec();
+
+
+        if (!post) {
+            return res.status(404).json({ error: 'Post no encontrado' });
+        }
+
+        post.comments.push({
+            user: userId,
+            comment
+        });
+
+        await post.save();
+        res.status(201).json(post);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al agregar el comentario' });
+    }
+};
+
+
+exports.deleteCommentFromHelps = async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const commentId = req.params.commentId;
+
+        // Buscar el post
+
+        const post = await Help.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({ error: 'Post no encontrado' });
+        }
+
+        const commentIndex = post.comments.findIndex(comment => comment._id.equals(commentId));
+
+        if (commentIndex === -1) {
+            return res.status(404).json({ error: 'Comentario no encontrado' });
+        }
+
+        // Eliminar el comentario
+        post.comments.splice(commentIndex, 1);
+
+        await post.save();
+        res.json({ message: 'Comentario eliminado exitosamente' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar el comentario' });
     }
 };
