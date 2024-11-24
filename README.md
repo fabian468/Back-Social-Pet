@@ -42,13 +42,13 @@ cd Back-Social-Pet
 ### 2. Instalar dependencias
 ```bash
 npm install
-
+```
 ### 3. Configurar variables de entorno
 
 ```bash
 PORT=4000
 MONGO_URI=tu_mongo_uri
 JWT_SECRET=tu_secreto_para_tokens
-
+```
 ### 4. Iniciar el servidor
 npm start
