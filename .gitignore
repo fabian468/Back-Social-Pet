@@ -1,6 +1,22 @@
 
 ### Node ###
 # Logs
+
+# Ignorar toda la carpeta uploads
+uploads/
+
+# O, si quieres ignorar solo imágenes y videos en uploads
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png
+uploads/*.gif
+uploads/*.mp4
+uploads/*.mov
+uploads/*.avi
+uploads/*.mkv
+
+
+
 logs
 *.log
 npm-debug.log*

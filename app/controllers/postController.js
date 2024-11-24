@@ -164,3 +164,55 @@ exports.deleteCommentFromPost = async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar el comentario' });
     }
 };
+
+
+exports.addLike = async (req, res) => {
+    const { postId } = req.params;
+    const userId = req.user._id;
+
+    try {
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Publicación no encontrada.' });
+        }
+
+        if (post.likes.includes(userId)) {
+            return res.status(400).json({ message: 'Ya le has dado like a esta publicación.' });
+        }
+
+        post.likes.push(userId);
+        await post.save();
+
+        return res.status(200).json({ message: 'Like agregado con éxito.', likes: post.likes });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error al agregar el like.', error });
+    }
+};
+
+
+exports.removeLike = async (req, res) => {
+    const { postId } = req.params;
+    const userId = req.user._id;
+
+    try {
+        const post = await Post.findById(postId);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Publicación no encontrada.' });
+        }
+
+        if (!post.likes.includes(userId)) {
+            return res.status(400).json({ message: 'No le has dado like a esta publicación.' });
+        }
+
+        post.likes = post.likes.filter(id => id.toString() !== userId.toString());
+        await post.save();
+
+        return res.status(200).json({ message: 'Like eliminado con éxito.', likes: post.likes });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error al eliminar el like.', error });
+    }
+};
