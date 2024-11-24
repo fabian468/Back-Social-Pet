@@ -51,4 +51,6 @@ MONGO_URI=tu_mongo_uri
 JWT_SECRET=tu_secreto_para_tokens
 ```
 ### 4. Iniciar el servidor
+```bash
 npm start
+```
