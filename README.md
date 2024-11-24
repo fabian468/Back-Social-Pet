@@ -37,7 +37,7 @@
 ```bash
 git clone https://github.com/tu-usuario/socialpet-backend.git
 cd Back-Social-Pet
-
+```
 
 ### 2. Instalar dependencias
 ```bash
