@@ -1,8 +1,10 @@
 const Help = require('../models/Helps');
+const moment = require('moment');
+
 
 exports.createHelp = async (req, res) => {
     try {
-        const { Titulo, author, cantidadAyuda, nombredelAnimal, ubicacionAnimal, tipoAyudaNecesitada } = req.body;
+        const { Titulo, author, cantidadAyuda, nombredelAnimal, ubicacionAnimal, tipoAyudaNecesitada, esHistoria } = req.body;
         const videoPath = req.file ? req.file.path : '';
 
         const newHelp = new Help({
@@ -13,8 +15,8 @@ exports.createHelp = async (req, res) => {
             nombredelAnimal,
             ubicacionAnimal,
             tipoAyudaNecesitada,
+            esHistoria,
             ayudasRecibidas: [],
-            Historial: []
         });
 
         await newHelp.save();
@@ -34,6 +36,9 @@ exports.getAllHelps = async (req, res) => {
         const helps = await Help.find()
             .populate('author', 'name image email')
             .populate('comments.user', 'name image')
+
+
+
         return res.status(200).json(helps);
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener Helps', error });
@@ -49,9 +54,28 @@ exports.getHelpById = async (req, res) => {
             return res.status(404).json({ message: 'Help no encontrado' });
         }
 
+
         return res.status(200).json(help);
     } catch (error) {
         return res.status(500).json({ message: 'Error al obtener Help', error });
+    }
+};
+
+exports.getHelpsByHistoriaId = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const helps = await Help.find({ esHistoria: id })
+            .populate('author', 'name email')
+            .populate('comments.user', 'name image');
+
+        if (helps.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron Helps para esta historia' });
+        }
+
+        return res.status(200).json(helps);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error al obtener Helps', error });
     }
 };
 
@@ -84,6 +108,8 @@ exports.deleteHelp = async (req, res) => {
         if (!help) {
             return res.status(404).json({ message: 'Help no encontrado' });
         }
+
+        await Help.deleteMany({ esHistoria: req.params.id });
 
         return res.status(200).json({ message: 'Help eliminado con éxito' });
     } catch (error) {

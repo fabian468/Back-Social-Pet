@@ -8,7 +8,11 @@ router.post('/helps', upload.single('video'), helpController.createHelp);
 
 router.get('/helps', helpController.getAllHelps);
 
+router.get('/helps', helpController.getAllHelps);
+
 router.get('/helps/:id', helpController.getHelpById);
+
+router.get('/helps/historia/:id', helpController.getHelpsByHistoriaId);
 
 router.put('/helps/:id', helpController.updateHelp);
 

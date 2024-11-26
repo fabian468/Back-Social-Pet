@@ -9,6 +9,10 @@ const HelpSchema = new Schema(
         },
         image: {
             type: String,
+            default: null
+        },
+        esHistoria: {
+            type: String,
             default: ''
         },
         nombredelAnimal: {
@@ -60,20 +64,6 @@ const HelpSchema = new Schema(
                 default: Date.now
             }
         }],
-        Historial: [{
-            titulo: {
-                type: String,
-                trim: true
-            },
-            image: {
-                type: String,
-                default: ''
-            },
-            comment: {
-                type: String,
-                trim: true
-            },
-        }]
     },
     { timestamps: true }
 );
