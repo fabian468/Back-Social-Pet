@@ -206,18 +206,13 @@ exports.blockUser = async (req, res) => {
 };
 
 
-
-
 exports.searchUsersByLetter = async (req, res) => {
     try {
         const letter = req.params.letter;
 
-
         if (!letter || !/^[a-zA-Z0-9]+$/.test(letter)) {
             return res.status(400).json({ message: 'Proporciona un término de búsqueda válido (solo letras y números).' });
         }
-
-
 
         const regex = new RegExp(`^${letter}`, 'i'); // Expresión regular para buscar por la letra inicial
         const users = await User.find({ name: regex }).select('name _id');;
