@@ -15,6 +15,7 @@ router.put('/user/:id/image', uploadAvatar.single('image'), userController.updat
 
 router.post("/user/follow", followController.followCase);
 router.post("/user/unfollow", followController.unfollowCase);
+router.post("/user/yesfollow", followController.comprobarSiSigueCaso);
 router.get("/user/cases/:userId", followController.getFollowedCases);
 
 module.exports = router;

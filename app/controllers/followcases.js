@@ -5,7 +5,6 @@ const Help = require("../models/Helps");
 const followCase = async (req, res) => {
     const { userId, caseId } = req.body;
 
-    console.log(userId, caseId)
 
     try {
         const helpCase = await Help.findById(caseId);
@@ -67,7 +66,7 @@ const getFollowedCases = async (req, res) => {
             return res.status(404).json({ message: "Usuario no encontrado." });
         }
 
-        console.log(user.casesFollow)
+
         res.status(200).json({
             message: "Casos seguidos obtenidos exitosamente.",
             casesFollow: user.casesFollow,
@@ -77,9 +76,38 @@ const getFollowedCases = async (req, res) => {
     }
 };
 
+const comprobarSiSigueCaso = async (req, res) => {
+    const { userId, caseId } = req.body;
+
+    try {
+
+        if (!userId || !caseId) {
+            return res.status(400).json({ message: "Faltan los parámetros userId o caseId." });
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "Usuario no encontrado." });
+        }
+
+        const isFollowing = user.casesFollow.includes(caseId);
+
+        if (isFollowing) {
+            return res.status(200).json({ isFollowing: true });
+        } else {
+            return res.status(200).json({ isFollowing: false });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error al comprobar si el usuario sigue el caso.", error });
+    }
+};
+
+
 
 module.exports = {
     followCase,
     unfollowCase,
     getFollowedCases,
+    comprobarSiSigueCaso
 };
