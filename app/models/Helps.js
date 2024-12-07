@@ -51,12 +51,14 @@ const HelpSchema = new Schema(
             required: true
         },
         ayudasRecibidas: [{
-
             user: {
                 type: Schema.Types.ObjectId,
                 ref: 'User',
             },
             ayuda: {
+                type: String,
+            },
+            estado: {
                 type: String,
             },
             fecha: {
