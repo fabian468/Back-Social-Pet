@@ -55,8 +55,15 @@ const HelpSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'User',
             },
+            tipoDeAyuda: {
+                type: String,
+            },
             ayuda: {
                 type: String,
+            },
+            dinero: {
+                type: Number,
+                default: 0
             },
             estado: {
                 type: String,

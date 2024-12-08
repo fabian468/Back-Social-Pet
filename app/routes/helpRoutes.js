@@ -25,4 +25,6 @@ router.delete('/helps/:postId/comments/:commentId', helpController.deleteComment
 
 router.get('/helps/i/inventary', inventary.inventaryHelps);
 
+router.post('/helps/i/updateayudarecibida', inventary.updateAyudasRecibidas);
+
 module.exports = router;
