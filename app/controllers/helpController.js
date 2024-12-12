@@ -122,9 +122,6 @@ exports.addCommentToHelps = async (req, res) => {
     try {
         const { userId, comment, helpId } = req.body;
 
-        console.log(userId, comment, helpId)
-
-
         const post = await Help.findById(helpId)
             .populate('comments.user', 'name')
             .exec();

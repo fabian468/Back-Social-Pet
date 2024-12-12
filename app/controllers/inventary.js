@@ -63,8 +63,6 @@ exports.actualizarEstadoAyuda = async (req, res) => {
 exports.updateAyudasRecibidas = async (req, res) => {
     const { helpId, userId, ayuda, estado, tipoDeAyuda, dinero } = req.body;
 
-    console.log(helpId, userId, ayuda, estado, tipoDeAyuda, dinero)
-
     if (!helpId || !userId || !ayuda || !estado || !tipoDeAyuda) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
