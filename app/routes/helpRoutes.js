@@ -27,4 +27,6 @@ router.get('/helps/i/inventary', inventary.inventaryHelps);
 
 router.post('/helps/i/updateayudarecibida', inventary.updateAyudasRecibidas);
 
+router.post('/helps/i/updateestadoayudarecibida', inventary.actualizarEstadoAyuda);
+
 module.exports = router;
