@@ -1,4 +1,5 @@
 const deleteImage = require('../../config/deleteImg');
+const Helps = require('../models/Helps');
 const Post = require('../models/post');
 const path = require('path');
 
@@ -167,11 +168,11 @@ exports.deleteCommentFromPost = async (req, res) => {
 
 
 exports.addLike = async (req, res) => {
-    const { postId } = req.params;
-    const userId = req.user._id;
+    const { postId, userId } = req.body;
+    console.log(postId, userId);
 
     try {
-        const post = await Post.findById(postId);
+        let post = await Post.findById(postId) || await Helps.findById(postId);
 
         if (!post) {
             return res.status(404).json({ message: 'Publicación no encontrada.' });
@@ -193,11 +194,10 @@ exports.addLike = async (req, res) => {
 
 
 exports.removeLike = async (req, res) => {
-    const { postId } = req.params;
-    const userId = req.user._id;
+    const { postId, userId } = req.body;
 
     try {
-        const post = await Post.findById(postId);
+        let post = await Post.findById(postId) || await Helps.findById(postId);
 
         if (!post) {
             return res.status(404).json({ message: 'Publicación no encontrada.' });

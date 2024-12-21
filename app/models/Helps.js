@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Esquema para los subdocumentos de ayudasRecibidas
 const AyudaSchema = new Schema(
     {
         user: {
@@ -29,7 +28,6 @@ const AyudaSchema = new Schema(
     { _id: true }
 );
 
-// Esquema principal Help
 const HelpSchema = new Schema(
     {
         Titulo: {
@@ -50,6 +48,17 @@ const HelpSchema = new Schema(
         ubicacionAnimal: {
             type: String,
         },
+        numeroDeContacto: {
+            type: Number,
+        },
+        generoDeLaMascota: {
+            type: String,
+        }
+        ,
+        likes: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }],
         comments: [{
             user: {
                 type: Schema.Types.ObjectId,
@@ -79,7 +88,7 @@ const HelpSchema = new Schema(
             type: String,
             required: true
         },
-        ayudasRecibidas: [AyudaSchema], // Ahora es un array de subdocumentos
+        ayudasRecibidas: [AyudaSchema],
     },
     { timestamps: true }
 );

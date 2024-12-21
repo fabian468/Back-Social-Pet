@@ -19,4 +19,8 @@ router.post('/posts/comments', postController.addCommentToPost);
 
 router.delete('/posts/:postId/comments/:commentId', postController.deleteCommentFromPost);
 
+router.post('/posts/like', postController.addLike);
+
+router.post('/posts/removelike', postController.removeLike);
+
 module.exports = router;

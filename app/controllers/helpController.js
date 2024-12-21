@@ -4,8 +4,16 @@ const moment = require('moment');
 
 exports.createHelp = async (req, res) => {
     try {
-        const { Titulo, author, cantidadAyuda, nombredelAnimal, ubicacionAnimal, tipoAyudaNecesitada, esHistoria } = req.body;
+        const { Titulo, author,
+            cantidadAyuda, nombredelAnimal,
+            ubicacionAnimal, tipoAyudaNecesitada,
+            esHistoria, numeroDeContacto,
+            generoDeLaMascota } = req.body;
+
         const videoPath = req.file ? req.file.path : '';
+
+        console.log(numeroDeContacto,
+            generoDeLaMascota)
 
         const newHelp = new Help({
             Titulo,
@@ -17,18 +25,19 @@ exports.createHelp = async (req, res) => {
             tipoAyudaNecesitada,
             esHistoria,
             ayudasRecibidas: [],
+            numeroDeContacto,
+            generoDeLaMascota
         });
+
+
 
         await newHelp.save();
 
         return res.status(201).json({ message: 'Help creado con éxito', newHelp });
     } catch (error) {
-
-
         return res.status(500).json({ message: 'Error al crear Help', error });
     }
 };
-
 
 
 exports.getAllHelps = async (req, res) => {
